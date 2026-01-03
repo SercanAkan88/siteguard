@@ -665,7 +665,7 @@
             `;
 
             // Simulate scan progress (in real version, this connects to backend)
-            simulateScan(url);
+            realScan(url);
         }
 
         function simulateScan(url) {
@@ -681,7 +681,46 @@
                 'Checking mobile version...',
                 'Preparing your report...'
             ];
+async function realScan(url) {
+    try {
+        const response = await fetch('/api/scan/demo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: url })
+        });
+        const data = await response.json();
+        showRealResults(url, data.results);
+    } catch (error) {
+        document.getElementById('modal-content').innerHTML = `
+            <h2>Scan Failed</h2>
+            <p>Could not scan website: ${error.message}</p>
+        `;
+    }
+}
 
+function showRealResults(url, results) {
+    let html = `<h2>📊 Scan Results for ${url}</h2>
+        <p style="color: #64748b; margin-bottom: 1.5rem;">Real scan completed:</p>`;
+    
+    if (results.issues && results.issues.length > 0) {
+        results.issues.forEach(issue => {
+            const cssClass = issue.severity === 'warning' ? 'warning' : 
+                           issue.severity === 'critical' ? 'error' : 'error';
+            html += `<div class="result-item ${cssClass}">
+                <div class="result-header">${issue.severity === 'critical' ? '🔴' : 
+                    issue.severity === 'error' ? '🟠' : '🟡'} ${issue.title}</div>
+                <div class="result-detail">${issue.description}</div>
+            </div>`;
+        });
+    } else {
+        html += `<div class="result-item success">
+            <div class="result-header">✓ Website is healthy!</div>
+            <div class="result-detail">No issues found.</div>
+        </div>`;
+    }
+    
+    document.getElementById('modal-content').innerHTML = html;
+}
             let i = 0;
             const interval = setInterval(() => {
                 if (i < statuses.length) {
