@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SiteGuard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background: #1e293b;
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-logo span {
+            color: #10b981;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: #334155;
+            color: white;
+        }
+
+        .sidebar-nav .icon {
+            font-size: 1.2rem;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            right: 1.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #334155;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: #2563eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .user-email {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #1e293b;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+
+        .btn-outline:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        /* Stats Cards */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .stat-card .value.healthy {
+            color: #10b981;
+        }
+
+        .stat-card .value.warning {
+            color: #f59e0b;
+        }
+
+        .stat-card .value.error {
+            color: #dc2626;
+        }
+
+        /* Websites List */
+        .websites-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+            color: #1e293b;
+        }
+
+        .website-list {
+            list-style: none;
+        }
+
+        .website-item {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s;
+        }
+
+        .website-item:hover {
+            background: #f8fafc;
+        }
+
+        .website-item:last-child {
+            border-bottom: none;
+        }
+
+        .website-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .website-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .website-status.healthy {
+            background: #10b981;
+        }
+
+        .website-status.warning {
+            background: #f59e0b;
+        }
+
+        .website-status.error {
+            background: #dc2626;
+        }
+
+        .website-status.checking {
+            background: #94a3b8;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .website-details h3 {
+            font-size: 1rem;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .website-details p {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .website-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .website-actions button {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3rem;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+            padding: 2rem;
+        }
+
+        .modal h2 {
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .modal .subtitle {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-close {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .form-help {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        /* Recent Alerts */
+        .alerts-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+
+        .alert-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .alert-icon.error {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .alert-icon.warning {
+            background: #fffbeb;
+            color: #f59e0b;
+        }
+
+        .alert-icon.success {
+            background: #f0fdf4;
+            color: #10b981;
+        }
+
+        .alert-content h4 {
+            font-size: 0.95rem;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-content p {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .alert-time {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .website-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .website-actions {
+                width: 100%;
+            }
+
+            .website-actions button {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="index.html" class="sidebar-logo">Site<span>Guard</span></a>
+        
+        <ul class="sidebar-nav">
+            <li><a href="#" class="active"><span class="icon">📊</span> Dashboard</a></li>
+            <li><a href="#"><span class="icon">🌐</span> Websites</a></li>
+            <li><a href="#"><span class="icon">🔔</span> Alerts</a></li>
+            <li><a href="#"><span class="icon">📈</span> Reports</a></li>
+            <li><a href="#"><span class="icon">⚙️</span> Settings</a></li>
+        </ul>
+
+        <div class="sidebar-bottom">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div>
+                    <div class="user-name" id="user-name">User</div>
+                    <div class="user-email" id="user-email">user@example.com</div>
+                </div>
+            </div>
+            <a href="index.html" class="btn btn-outline" style="width: 100%; justify-content: center; padding: 0.5rem;" onclick="logout()">Log Out</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="header">
+            <h1>Dashboard</h1>
+            <button class="btn btn-primary" onclick="openAddModal()">
+                <span>+</span> Add Website
+            </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="label">Total Websites</div>
+                <div class="value" id="stat-total">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Healthy</div>
+                <div class="value healthy" id="stat-healthy">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Issues Found</div>
+                <div class="value warning" id="stat-issues">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Last Check</div>
+                <div class="value" id="stat-lastcheck" style="font-size: 1rem;">Never</div>
+            </div>
+        </div>
+
+        <!-- Websites List -->
+        <div class="websites-section">
+            <div class="section-header">
+                <h2>Your Websites</h2>
+            </div>
+            
+            <div id="websites-container">
+                <!-- Empty state (shown when no websites) -->
+                <div class="empty-state" id="empty-state">
+                    <div class="icon">🌐</div>
+                    <h3>No websites yet</h3>
+                    <p>Add your first website to start monitoring for problems.</p>
+                    <button class="btn btn-primary" onclick="openAddModal()">Add Your First Website</button>
+                </div>
+
+                <!-- Website list (populated by JavaScript) -->
+                <ul class="website-list" id="website-list" style="display: none;"></ul>
+            </div>
+        </div>
+
+        <!-- Recent Alerts -->
+        <div class="alerts-section">
+            <div class="section-header">
+                <h2>Recent Alerts</h2>
+            </div>
+            <div id="alerts-container">
+                <div class="empty-state" style="padding: 2rem;">
+                    <p style="margin: 0;">No alerts yet. We'll notify you when we find problems.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Website Modal -->
+    <div class="modal-overlay" id="add-modal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeAddModal()">×</button>
+            <h2>Add a Website</h2>
+            <p class="subtitle">We'll start checking it every hour for problems.</p>
+
+            <form id="add-website-form" onsubmit="addWebsite(event)">
+                <div class="form-group">
+                    <label for="website-url">Website Address</label>
+                    <input type="url" id="website-url" placeholder="https://example.com" required>
+                    <p class="form-help">Enter the full address including https://</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="website-name">Display Name (optional)</label>
+                    <input type="text" id="website-name" placeholder="My Business Website">
+                    <p class="form-help">A friendly name to help you identify this website</p>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeAddModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Website</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scan Results Modal -->
+    <div class="modal-overlay" id="scan-modal">
+        <div class="modal" style="max-width: 600px;">
+            <button class="modal-close" onclick="closeScanModal()">×</button>
+            <div id="scan-modal-content">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let websites = JSON.parse(localStorage.getItem('siteguard_websites') || '[]');
+        let alerts = JSON.parse(localStorage.getItem('siteguard_alerts') || '[]');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load user info
+            const user = JSON.parse(localStorage.getItem('siteguard_user') || '{}');
+            if (user.name) {
+                document.getElementById('user-name').textContent = user.name;
+                document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
+            }
+            if (user.email) {
+                document.getElementById('user-email').textContent = user.email;
+            }
+
+            // If user added a website during signup, add it
+            if (user.website && !websites.find(w => w.url === user.website)) {
+                websites.push({
+                    id: Date.now(),
+                    url: user.website,
+                    name: extractDomain(user.website),
+                    status: 'checking',
+                    lastCheck: null,
+                    issues: []
+                });
+                saveWebsites();
+            }
+
+            renderWebsites();
+            renderAlerts();
+            updateStats();
+        });
+
+        function extractDomain(url) {
+            try {
+                return new URL(url).hostname;
+            } catch {
+                return url;
+            }
+        }
+
+        function saveWebsites() {
+            localStorage.setItem('siteguard_websites', JSON.stringify(websites));
+        }
+
+        function saveAlerts() {
+            localStorage.setItem('siteguard_alerts', JSON.stringify(alerts));
+        }
+
+        function renderWebsites() {
+            const emptyState = document.getElementById('empty-state');
+            const websiteList = document.getElementById('website-list');
+
+            if (websites.length === 0) {
+                emptyState.style.display = 'block';
+                websiteList.style.display = 'none';
+            } else {
+                emptyState.style.display = 'none';
+                websiteList.style.display = 'block';
+                
+                websiteList.innerHTML = websites.map(site => `
+                    <li class="website-item">
+                        <div class="website-info">
+                            <div class="website-status ${site.status}"></div>
+                            <div class="website-details">
+                                <h3>${site.name || extractDomain(site.url)}</h3>
+                                <p>${site.url} • ${site.lastCheck ? 'Checked ' + formatTime(site.lastCheck) : 'Waiting for first check...'}</p>
+                            </div>
+                        </div>
+                        <div class="website-actions">
+                            <button class="btn btn-outline" onclick="scanNow(${site.id})">Scan Now</button>
+                            <button class="btn btn-outline" onclick="viewDetails(${site.id})">Details</button>
+                            <button class="btn btn-danger" onclick="removeWebsite(${site.id})" style="padding: 0.5rem;">🗑️</button>
+                        </div>
+                    </li>
+                `).join('');
+            }
+        }
+
+        function renderAlerts() {
+            const container = document.getElementById('alerts-container');
+            
+            if (alerts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding: 2rem;">
+                        <p style="margin: 0;">No alerts yet. We'll notify you when we find problems.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = alerts.slice(0, 5).map(alert => `
+                    <div class="alert-item">
+                        <div class="alert-icon ${alert.type}">${alert.type === 'error' ? '✗' : alert.type === 'warning' ? '⚠' : '✓'}</div>
+                        <div class="alert-content">
+                            <h4>${alert.title}</h4>
+                            <p>${alert.message}</p>
+                        </div>
+                        <div class="alert-time">${formatTime(alert.time)}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function updateStats() {
+            const total = websites.length;
+            const healthy = websites.filter(w => w.status === 'healthy').length;
+            const issues = websites.filter(w => w.status === 'warning' || w.status === 'error').length;
+            
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-healthy').textContent = healthy;
+            document.getElementById('stat-issues').textContent = issues;
+
+            const lastCheck = websites
+                .filter(w => w.lastCheck)
+                .sort((a, b) => new Date(b.lastCheck) - new Date(a.lastCheck))[0];
+            
+            document.getElementById('stat-lastcheck').textContent = lastCheck ? formatTime(lastCheck.lastCheck) : 'Never';
+        }
+
+        function formatTime(date) {
+            const d = new Date(date);
+            const now = new Date();
+            const diff = now - d;
+            
+            if (diff < 60000) return 'Just now';
+            if (diff < 3600000) return Math.floor(diff / 60000) + ' min ago';
+            if (diff < 86400000) return Math.floor(diff / 3600000) + ' hours ago';
+            return d.toLocaleDateString();
+        }
+
+        function openAddModal() {
+            document.getElementById('add-modal').classList.add('active');
+            document.getElementById('website-url').focus();
+        }
+
+        function closeAddModal() {
+            document.getElementById('add-modal').classList.remove('active');
+            document.getElementById('add-website-form').reset();
+        }
+
+        function closeScanModal() {
+            document.getElementById('scan-modal').classList.remove('active');
+        }
+
+        function addWebsite(event) {
+            event.preventDefault();
+            
+            let url = document.getElementById('website-url').value.trim();
+            const name = document.getElementById('website-name').value.trim();
+
+            // Add https if missing
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+            // Check for duplicates
+            if (websites.find(w => w.url === url)) {
+                alert('This website is already being monitored.');
+                return;
+            }
+
+            // Add website
+            const newSite = {
+                id: Date.now(),
+                url: url,
+                name: name || extractDomain(url),
+                status: 'checking',
+                lastCheck: null,
+                issues: []
+            };
+
+            websites.push(newSite);
+            saveWebsites();
+            renderWebsites();
+            updateStats();
+            closeAddModal();
+
+            // Trigger initial scan
+            scanNow(newSite.id);
+        }
+
+        function removeWebsite(id) {
+            if (confirm('Are you sure you want to stop monitoring this website?')) {
+                websites = websites.filter(w => w.id !== id);
+                saveWebsites();
+                renderWebsites();
+                updateStats();
+            }
+        }
+
+        function scanNow(id) {
+            const site = websites.find(w => w.id === id);
+            if (!site) return;
+
+            // Show scanning modal
+            document.getElementById('scan-modal').classList.add('active');
+            document.getElementById('scan-modal-content').innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="width: 50px; height: 50px; border: 4px solid #e2e8f0; border-top-color: #2563eb; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
+                    <h2>Scanning ${site.name}</h2>
+                    <p style="color: #64748b;" id="scan-status">Starting scan...</p>
+                </div>
+                <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+            `;
+
+            // Simulate scan progress
+            const statuses = [
+                'Checking if the website is online...',
+                'Loading pages...',
+                'Finding all links...',
+                'Checking for broken links...',
+                'Looking for contact forms...',
+                'Testing forms...',
+                'Checking images...',
+                'Measuring speed...',
+                'Preparing results...'
+            ];
+
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < statuses.length) {
+                    document.getElementById('scan-status').textContent = statuses[i];
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    showScanResults(site);
+                }
+            }, 600);
+        }
+
+        function showScanResults(site) {
+            // Simulate results (in real version, these come from actual scan)
+            const hasIssues = Math.random() > 0.5;
+            
+            site.lastCheck = new Date().toISOString();
+            site.status = hasIssues ? 'warning' : 'healthy';
+            
+            const results = [];
+            
+            // Always show site online
+            results.push({ type: 'success', title: 'Website is Online', detail: 'Loaded successfully in 1.2 seconds' });
+            
+            if (hasIssues) {
+                // Add some demo issues
+                results.push({ type: 'warning', title: 'Slow Loading', detail: 'Homepage took 3.2 seconds to load' });
+                results.push({ type: 'error', title: '2 Broken Links', detail: 'Found links leading to error pages' });
+                
+                // Add alert
+                alerts.unshift({
+                    type: 'error',
+                    title: 'Problems found on ' + site.name,
+                    message: '2 broken links detected',
+                    time: new Date().toISOString(),
+                    siteId: site.id
+                });
+                saveAlerts();
+            } else {
+                results.push({ type: 'success', title: 'All Links Working', detail: '45 links checked, all working' });
+                results.push({ type: 'success', title: 'Contact Form OK', detail: 'Form submits without errors' });
+                results.push({ type: 'success', title: 'All Images Loading', detail: '23 images checked' });
+            }
+
+            saveWebsites();
+            renderWebsites();
+            renderAlerts();
+            updateStats();
+
+            // Show results
+            document.getElementById('scan-modal-content').innerHTML = `
+                <h2>📊 Scan Results</h2>
+                <p style="color: #64748b; margin-bottom: 1.5rem;">${site.name} (${site.url})</p>
+                
+                ${results.map(r => `
+                    <div style="padding: 1rem; border-radius: 8px; margin-bottom: 0.5rem; background: ${r.type === 'success' ? '#f0fdf4' : r.type === 'warning' ? '#fffbeb' : '#fef2f2'}; border-left: 4px solid ${r.type === 'success' ? '#10b981' : r.type === 'warning' ? '#f59e0b' : '#dc2626'};">
+                        <div style="font-weight: 600; margin-bottom: 0.25rem;">${r.type === 'success' ? '✓' : r.type === 'warning' ? '⚠' : '✗'} ${r.title}</div>
+                        <div style="font-size: 0.9rem; color: #64748b;">${r.detail}</div>
+                    </div>
+                `).join('')}
+                
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <button class="btn btn-primary" onclick="closeScanModal()">Close</button>
+                </div>
+            `;
+        }
+
+        function viewDetails(id) {
+            const site = websites.find(w => w.id === id);
+            if (site) {
+                scanNow(id);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('siteguard_session');
+            window.location.href = 'index.html';
+        }
+
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

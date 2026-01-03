@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiteGuard - Never Lose a Customer to a Broken Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fafbfc;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #10b981;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+
+        .btn-outline:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: #dc2626;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        /* Try It Section */
+        .try-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .try-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .input-group button {
+            padding: 1rem 1.5rem;
+            white-space: nowrap;
+        }
+
+        /* Features */
+        .features {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: #1e293b;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .feature-card p {
+            color: #64748b;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+        }
+
+        .pricing h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .pricing-subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .pricing-cards {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            min-width: 280px;
+            text-align: center;
+        }
+
+        .pricing-card.popular {
+            border: 3px solid #2563eb;
+            transform: scale(1.05);
+        }
+
+        .popular-badge {
+            background: #2563eb;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin: 1rem 0;
+        }
+
+        .pricing-card .price span {
+            font-size: 1rem;
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .pricing-card ul li {
+            padding: 0.5rem 0;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pricing-card ul li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: #1e293b;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .step-content p {
+            color: #64748b;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        /* Results Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal h2 {
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .modal-close {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .scan-progress {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .result-item {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-item.success {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+        }
+
+        .result-item.error {
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
+        }
+
+        .result-item.warning {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .result-header {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-detail {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .step {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .pricing-card.popular {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">Site<span>Guard</span></a>
+            <div class="nav-buttons">
+                <a href="#pricing" class="btn btn-outline">Pricing</a>
+                <a href="login.html" class="btn btn-outline">Log In</a>
+                <a href="signup.html" class="btn btn-primary">Start Free</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Never Lose a Customer to a <span>Broken Website</span> Again</h1>
+            <p>We check your website every hour. When something breaks — a link, a form, a page — you'll know immediately. Not when a customer complains.</p>
+            
+            <div class="try-section">
+                <h2>🔍 Try it now — scan any website for free</h2>
+                <div class="input-group">
+                    <input type="url" id="scan-url" placeholder="Enter a website address (e.g., example.com)">
+                    <button class="btn btn-success" onclick="startScan()">Scan Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <h2>What We Watch For</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>Broken Links</h3>
+                <p>Every link on your site, checked. Dead links frustrate visitors and hurt your reputation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>Contact Forms</h3>
+                <p>We fill out your forms to make sure they work. A broken contact form means lost customers.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🖼️</div>
+                <h3>Missing Images</h3>
+                <p>Broken images make your site look unprofessional. We catch them before visitors do.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Slow Loading</h3>
+                <p>If your site takes too long to load, visitors leave. We alert you when it's getting slow.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Problems</h3>
+                <p>Half your visitors are on phones. We check that your site works on all devices.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Site Downtime</h3>
+                <p>When your site goes completely offline, you'll know within the hour — not the next day.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <h2>How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Add Your Website</h3>
+                    <p>Just enter your website address. That's it. No complicated setup, no code to install.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>We Start Watching</h3>
+                    <p>Every hour, we visit your website like a real customer would. We click links, check forms, and look for problems.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Get Alerts Instantly</h3>
+                    <p>When something breaks, you get an email right away. Clear, simple explanations — no tech jargon.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <h2>Simple Pricing</h2>
+        <p class="pricing-subtitle">No hidden fees. Cancel anytime.</p>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <h3>Starter</h3>
+                <p style="color: #64748b;">For small websites</p>
+                <div class="price">€10<span>/month</span></div>
+                <ul>
+                    <li>Up to 50 pages</li>
+                    <li>Hourly checks</li>
+                    <li>Email alerts</li>
+                    <li>Link checking</li>
+                    <li>Form testing</li>
+                </ul>
+                <a href="signup.html" class="btn btn-primary" style="width: 100%; display: block; text-align: center;">Get Started</a>
+            </div>
+            <div class="pricing-card popular">
+                <div class="popular-badge">Most Popular</div>
+                <h3>Professional</h3>
+                <p style="color: #64748b;">For business websites</p>
+                <div class="price">€20<span>/month</span></div>
+                <ul>
+                    <li>Up to 200 pages</li>
+                    <li>Hourly checks</li>
+                    <li>Email alerts</li>
+                    <li>Link checking</li>
+                    <li>Form testing</li>
+                    <li>Mobile testing</li>
+                    <li>Speed monitoring</li>
+                </ul>
+                <a href="signup.html" class="btn btn-primary" style="width: 100%; display: block; text-align: center;">Get Started</a>
+            </div>
+            <div class="pricing-card">
+                <h3>Enterprise</h3>
+                <p style="color: #64748b;">For large websites</p>
+                <div class="price">€35<span>/month</span></div>
+                <ul>
+                    <li>Unlimited pages</li>
+                    <li>Hourly checks</li>
+                    <li>Email alerts</li>
+                    <li>Everything in Professional</li>
+                    <li>Priority support</li>
+                    <li>Multiple websites</li>
+                </ul>
+                <a href="signup.html" class="btn btn-primary" style="width: 100%; display: block; text-align: center;">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 SiteGuard. Helping businesses keep their websites healthy.</p>
+    </footer>
+
+    <!-- Scan Results Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div id="modal-content">
+                <!-- Content injected by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startScan() {
+            let url = document.getElementById('scan-url').value.trim();
+            
+            if (!url) {
+                alert('Please enter a website address');
+                return;
+            }
+
+            // Add https if missing
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+            // Show modal with loading
+            document.getElementById('modal').classList.add('active');
+            document.getElementById('modal-content').innerHTML = `
+                <div class="scan-progress">
+                    <div class="spinner"></div>
+                    <h2>Scanning ${url}</h2>
+                    <p>This usually takes 30-60 seconds...</p>
+                    <p id="scan-status" style="color: #64748b; margin-top: 1rem;">Starting scan...</p>
+                </div>
+            `;
+
+            // Run REAL scan via backend API
+            realScan(url);
+        }
+
+        async function realScan(url) {
+            const statusEl = document.getElementById('scan-status');
+            
+            try {
+                statusEl.textContent = 'Connecting to scanner...';
+                
+                const response = await fetch('/api/scan/demo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    showError(url, data.error);
+                } else if (data.results) {
+                    showRealResults(url, data.results);
+                } else {
+                    showError(url, 'Unexpected response from scanner');
+                }
+            } catch (error) {
+                showError(url, error.message);
+            }
+        }
+
+        function showError(url, message) {
+            document.getElementById('modal-content').innerHTML = `
+                <h2>❌ Scan Failed</h2>
+                <p style="color: #64748b; margin-bottom: 1rem;">Could not scan ${url}</p>
+                <div class="result-item error">
+                    <div class="result-header">Error</div>
+                    <div class="result-detail">${message}</div>
+                </div>
+                <p style="margin-top: 1rem;">Try again or check if the website address is correct.</p>
+            `;
+        }
+
+        function showRealResults(url, results) {
+            let html = `
+                <h2>📊 Scan Results for ${url}</h2>
+                <p style="color: #64748b; margin-bottom: 1.5rem;">Here's what we found:</p>
+            `;
+            
+            // Show summary stats
+            if (results.summary) {
+                html += `
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                        <div style="background: #f1f5f9; padding: 0.75rem 1rem; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">${results.summary.totalLinks || 0}</div>
+                            <div style="font-size: 0.8rem; color: #64748b;">Links</div>
+                        </div>
+                        <div style="background: #f1f5f9; padding: 0.75rem 1rem; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">${results.summary.totalImages || 0}</div>
+                            <div style="font-size: 0.8rem; color: #64748b;">Images</div>
+                        </div>
+                        <div style="background: #f1f5f9; padding: 0.75rem 1rem; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">${results.summary.totalForms || 0}</div>
+                            <div style="font-size: 0.8rem; color: #64748b;">Forms</div>
+                        </div>
+                        <div style="background: ${results.summary.issuesFound > 0 ? '#fef2f2' : '#f0fdf4'}; padding: 0.75rem 1rem; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: ${results.summary.issuesFound > 0 ? '#dc2626' : '#10b981'};">${results.summary.issuesFound || 0}</div>
+                            <div style="font-size: 0.8rem; color: #64748b;">Issues</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Show load time if available
+            if (results.checks && results.checks.loadTime) {
+                const loadTime = results.checks.loadTime;
+                const isGood = loadTime < 3000;
+                html += `
+                    <div class="result-item ${isGood ? 'success' : 'warning'}">
+                        <div class="result-header">${isGood ? '✓' : '⚠'} Load Time: ${(loadTime / 1000).toFixed(1)} seconds</div>
+                        <div class="result-detail">${isGood ? 'Good! Visitors expect under 3 seconds.' : 'Slow! Visitors expect under 3 seconds.'}</div>
+                    </div>
+                `;
+            }
+            
+            // Show issues
+            if (results.issues && results.issues.length > 0) {
+                results.issues.forEach(issue => {
+                    const icon = issue.severity === 'critical' ? '🔴' : 
+                                issue.severity === 'error' ? '🟠' : '🟡';
+                    const cssClass = issue.severity === 'critical' ? 'error' : 
+                                    issue.severity === 'error' ? 'error' : 'warning';
+                    html += `
+                        <div class="result-item ${cssClass}">
+                            <div class="result-header">${icon} ${issue.title}</div>
+                            <div class="result-detail">${issue.description}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                html += `
+                    <div class="result-item success">
+                        <div class="result-header">✓ No Issues Found!</div>
+                        <div class="result-detail">Your website looks healthy.</div>
+                    </div>
+                `;
+            }
+            
+            // Call to action
+            html += `
+                <div style="background: #eff6ff; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; text-align: center;">
+                    <p style="margin-bottom: 1rem;"><strong>Want to catch problems like this automatically?</strong></p>
+                    <a href="signup.html" class="btn btn-primary">Start Monitoring for €10/month</a>
+                </div>
+            `;
+            
+            document.getElementById('modal-content').innerHTML = html;
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
